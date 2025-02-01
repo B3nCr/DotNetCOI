@@ -43,6 +43,8 @@ namespace WordCount.Tests
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
+
+                // ACT
                 ReadFileHandler.ReadFile(fileInfo, false);
 
                 // Assert
