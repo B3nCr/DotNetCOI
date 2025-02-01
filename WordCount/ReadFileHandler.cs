@@ -2,17 +2,22 @@ using System.IO;
 
 public class ReadFileHandler
 {
-    public static void ReadFile(FileInfo file, bool line)
+    public static void ReadFile(FileInfo file, bool line = false, bool byteFlag = false)
     {
-        if(line){
-            file.ReadFile(file).Lines
-
-            return 
+        if (line)
+        {
+            int lineCount = File.ReadAllLines(file.FullName).Length;
+            Console.WriteLine($"File {file.Name} has {lineCount} lines.");
+            return;
         }
-        File.ReadLines(file.FullName).ToList()
-            .ForEach(line => Console.WriteLine(line));
-        console.WriteLine();
 
-        Console.WriteLine($"File {file.FullName} has been read.");
+        if (byteFlag)
+        {
+            long byteCount = file.Length;
+            Console.WriteLine($"File {file.Name} has {byteCount} bytes.");
+            return;
+        }
+
+        Console.WriteLine($"Done Nothing.");
     }
 }
