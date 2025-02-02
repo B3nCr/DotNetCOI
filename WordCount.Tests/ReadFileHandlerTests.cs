@@ -156,5 +156,32 @@ namespace WordCount.Tests
             // Cleanup
             File.Delete(filePath);
         }
+
+        [Fact]
+        public void ReadFile_ShouldPrintAllCounts_WhenAllFlagsAreTrue()
+        {
+            // Arrange
+            var filePath = "testfile.txt";
+            File.WriteAllText(filePath, "Hello world!\nThis is a test file.");
+            var fileInfo = new FileInfo(filePath);
+
+            // Act
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+
+                ReadFileHandler.ReadFile(fileInfo, line: true, byteFlag: true, wordFlag: true, characterFlag: true);
+
+                // Assert
+                var result = sw.ToString().Trim().Split('\n');
+                Assert.Equal($"File {filePath} has 2 lines.", result[0].Trim());
+                Assert.Equal($"File {filePath} has {fileInfo.Length} bytes.", result[1].Trim());
+                Assert.Equal($"File {filePath} has 7 words.", result[2].Trim());
+                Assert.Equal($"File {filePath} has 33 characters.", result[3].Trim());
+            }
+
+            // Cleanup
+            File.Delete(filePath);
+        }
     }
 }
