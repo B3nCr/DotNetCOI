@@ -1,33 +1,52 @@
 using System.IO;
 
-public class ReadFileHandler
+public static class ReadFileHandler
 {
     public static void ReadFile(FileInfo file, bool countLines = false, bool countBytes = false, bool countWords = false, bool countCharacters = false)
     {
         string content = File.ReadAllText(file.FullName);
+        ProcessContent(content, file.Name, countLines, countBytes, countWords, countCharacters, file.Length);
+    }
+
+    public static void ReadFromStdin(bool countLines = false, bool countBytes = false, bool countWords = false, bool countCharacters = false)
+    {
+        string content = Console.In.ReadToEnd();
+        ProcessContent(content, "stdin", countLines, countBytes, countWords, countCharacters);
+    }
+
+    private static void ProcessContent(string content, string source, bool countLines, bool countBytes, bool countWords, bool countCharacters, long byteCount = 0)
+    {
+        if (string.IsNullOrEmpty(content))
+        {
+            Console.WriteLine("No input provided.");
+            return;
+        }
 
         if (countLines)
         {
-            int lineCount = content.Split('\n').Length;
-            Console.WriteLine($"File {file.Name} has {lineCount} lines.");
+            int lineCount = content.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+            PrintResult(source, "lines", lineCount);
         }
 
         if (countBytes)
         {
-            long byteCount = file.Length;
-            Console.WriteLine($"File {file.Name} has {byteCount} bytes.");
+            if (byteCount == 0)
+            {
+                byteCount = System.Text.Encoding.UTF8.GetByteCount(content);
+            }
+            PrintResult(source, "bytes", byteCount);
         }
 
         if (countWords)
         {
             int wordCount = content.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
-            Console.WriteLine($"File {file.Name} has {wordCount} words.");
+            PrintResult(source, "words", wordCount);
         }
 
         if (countCharacters)
         {
-            int charCount = content.Length;
-            Console.WriteLine($"File {file.Name} has {charCount} characters.");
+            int characterCount = content.Length;
+            PrintResult(source, "characters", characterCount);
         }
 
         if (!countLines && !countBytes && !countWords && !countCharacters)
@@ -36,37 +55,8 @@ public class ReadFileHandler
         }
     }
 
-    public static void ReadFromStdin(bool countLines = false, bool countBytes = false, bool countWords = false, bool countCharacters = false)
+    private static void PrintResult(string source, string type, long count)
     {
-        string content = Console.In.ReadToEnd();
-
-        if (countLines)
-        {
-            int lineCount = content.Split('\n').Length;
-            Console.WriteLine($"Input has {lineCount} lines.");
-        }
-
-        if (countBytes)
-        {
-            long byteCount = System.Text.Encoding.UTF8.GetByteCount(content);
-            Console.WriteLine($"Input has {byteCount} bytes.");
-        }
-
-        if (countWords)
-        {
-            int wordCount = content.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
-            Console.WriteLine($"Input has {wordCount} words.");
-        }
-
-        if (countCharacters)
-        {
-            int charCount = content.Length;
-            Console.WriteLine($"Input has {charCount} characters.");
-        }
-
-        if (!countLines && !countBytes && !countWords && !countCharacters)
-        {
-            Console.WriteLine("Done Nothing.");
-        }
+        Console.WriteLine($"File {source} has {count} {type}.");
     }
 }

@@ -19,7 +19,7 @@ namespace WordCount.Tests
                 Console.SetOut(sw);
 
                 // ACT
-                ReadFileHandler.ReadFile(fileInfo, line: true);
+                ReadFileHandler.ReadFile(fileInfo, countLines: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -45,7 +45,7 @@ namespace WordCount.Tests
                 Console.SetOut(sw);
 
                 // ACT
-                ReadFileHandler.ReadFile(fileInfo, line: false);
+                ReadFileHandler.ReadFile(fileInfo, countLines: false);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -70,7 +70,7 @@ namespace WordCount.Tests
                 Console.SetOut(sw);
 
                 // ACT
-                ReadFileHandler.ReadFile(fileInfo, line: false, byteFlag: true);
+                ReadFileHandler.ReadFile(fileInfo, countLines: false, countBytes: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -84,7 +84,7 @@ namespace WordCount.Tests
         }
 
         [Fact]
-        public void ReadFile_ShouldPrintDoneNothing_WhenByteFlagIsFalse()
+        public void ReadFile_ShouldPrintDoneNothing_WhenAllFlagsAreFalse()
         {
             // Arrange
             var filePath = "testfile.txt";
@@ -97,7 +97,7 @@ namespace WordCount.Tests
                 Console.SetOut(sw);
 
                 // ACT
-                ReadFileHandler.ReadFile(fileInfo, line: false, byteFlag: false);
+                ReadFileHandler.ReadFile(fileInfo);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -122,7 +122,7 @@ namespace WordCount.Tests
             {
                 Console.SetOut(sw);
 
-                ReadFileHandler.ReadFile(fileInfo, wordFlag: true);
+                ReadFileHandler.ReadFile(fileInfo, countWords: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -146,7 +146,7 @@ namespace WordCount.Tests
             {
                 Console.SetOut(sw);
 
-                ReadFileHandler.ReadFile(fileInfo, characterFlag: true);
+                ReadFileHandler.ReadFile(fileInfo, countCharacters: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
@@ -170,7 +170,7 @@ namespace WordCount.Tests
             {
                 Console.SetOut(sw);
 
-                ReadFileHandler.ReadFile(fileInfo, line: true, byteFlag: true, wordFlag: true, characterFlag: true);
+                ReadFileHandler.ReadFile(fileInfo, countLines: true, countBytes: true, countWords: true, countCharacters: true);
 
                 // Assert
                 var result = sw.ToString().Trim().Split('\n');
