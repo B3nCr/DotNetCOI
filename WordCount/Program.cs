@@ -37,9 +37,9 @@ internal class Program
         rootCommand.AddOption(wordOption);
         rootCommand.AddOption(charOption);
 
-        rootCommand.SetHandler((file, line, _, _, _) =>
+        rootCommand.SetHandler((file, line, byteFlag, wordFlag, charFlag) =>
             {
-                ReadFileHandler.ReadFile(file, line);
+                ReadFileHandler.ReadFile(file, line, byteFlag, wordFlag, charFlag);
             },
             fileOption, lineOption, byteOption, wordOption, charOption);
 

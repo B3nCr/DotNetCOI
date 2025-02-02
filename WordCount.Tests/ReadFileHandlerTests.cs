@@ -122,11 +122,11 @@ namespace WordCount.Tests
             {
                 Console.SetOut(sw);
 
-                ReadFileHandler.ReadFile(fileInfo);
+                ReadFileHandler.ReadFile(fileInfo, wordFlag: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
-                Assert.Equal($"File {filePath} has 6 words.", result);
+                Assert.Equal($"File {filePath} has 7 words.", result);
             }
 
             // Cleanup
@@ -146,11 +146,11 @@ namespace WordCount.Tests
             {
                 Console.SetOut(sw);
 
-                ReadFileHandler.ReadFile(fileInfo);
+                ReadFileHandler.ReadFile(fileInfo, characterFlag: true);
 
                 // Assert
                 var result = sw.ToString().Trim();
-                Assert.Equal($"File {filePath} has 29 characters.", result);
+                Assert.Equal($"File {filePath} has 33 characters.", result);
             }
 
             // Cleanup
